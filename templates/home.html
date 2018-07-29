@@ -1,25 +1,35 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <title>Silly Boys</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1>Alliteration Engine v0.5</h1>
-    <form action="/" method="POST">
-        <input type="text" name="phrase">
-        <button type="submit">Submit</button>
-    </form>
-    <table>
-        <thead>
-            <td scope="col">alliterations</td>
-        </thead>
-        {% for row in rows %}
-        <tr>
-            <td scope="row">{{row}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container" style="margin: 30px;border: 1px #CCCCCC dashed;padding: 15px;">
+        <h1 alt="To Do: Extend to more than two words, do some kind of semantic
+        analysis on results">Alliteration Engine v0.5</h1>
+        
+        <p>Making phrases alliterative (e.g. "sugar daddy" to "glucose guardian") is really
+        funny so I made a Flask web app that generates them.</p>
+        
+        <form class="pure-form" action="/" method="POST">
+            <input type="text" name="phrase" value="{{phrase}}">
+            <button class="pure-button" type="submit">Submit</button>
+        </form>
+        <hr>
+        <table class="pure-table">
+            <thead>
+                <td scope="col">Alliterations</td>
+            </thead>
+            {% for row in rows %}
+            <tr>
+                <td scope="row">{{row}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html>

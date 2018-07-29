@@ -9,8 +9,11 @@ def alliterate(foo):
     if len(foo) != 2:
         raise InputError("Fuck")
 
-    x = Word(foo[0]).synonyms()
-    y = Word(foo[1]).synonyms()
+    f = lambda p: " " not in p
+    x = list(filter(f, Word(foo[0]).synonyms()))
+    y = list(filter(f, Word(foo[1]).synonyms()))
+
+    
     li = []
     for i in x:
         for j in y:
@@ -25,10 +28,12 @@ def alliterate(foo):
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     if request.method == 'POST':
-        res = alliterate(request.form.get("phrase"))
-        return render_template('home.html', rows=rows)
-
-    return render_template('home.html', rows=[])
+        try:
+            res = alliterate(request.form.get("phrase"))
+            return render_template('home.html', phrase=request.form.get("phrase"), rows=res)
+        except:
+            return render_template('home.html', phrase="", rows=["Bad input!"])
+    return render_template('home.html', rows=[], phrase="")
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=80, debug=True)

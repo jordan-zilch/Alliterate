@@ -1,4 +1,4 @@
-from thesaurus import Word
+from nltk.corpus import wordnet
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
@@ -10,8 +10,12 @@ def alliterate(foo):
         raise InputError("Fuck")
 
     f = lambda p: " " not in p
-    x = list(filter(f, Word(foo[0]).synonyms()))
-    y = list(filter(f, Word(foo[1]).synonyms()))
+    syns_first = [x.lemmas()[0].name() for x in wordnet.synsets(foo[0])]
+    syns_second = [x.lemmas()[0].name() for x in wordnet.synsets(foo[1])]
+    print(syns_first)
+    print(syns_second)
+    x = list(filter(f, syns_first))
+    y = list(filter(f, syns_second))
 
     
     li = []
@@ -31,8 +35,8 @@ def homepage():
         try:
             res = alliterate(request.form.get("phrase"))
             return render_template('home.html', phrase=request.form.get("phrase"), rows=res)
-        except:
-            return render_template('home.html', phrase="", rows=["Bad input!"])
+        except BaseException as err:
+            return render_template('home.html', phrase="", rows=[f"{err}"])
     return render_template('home.html', rows=[], phrase="")
 
 if __name__ == '__main__':
